@@ -1,6 +1,6 @@
 # Git workflow
 
-- **Branch**: `feature/...` vagy `fix/...`. Soha ne dolgozz main-en.
+- **Branch**: `feature/...` vagy `fix/...`.
 - **Commit**: minden tesztelt lépés után, kérés nélkül is. Atomikus (egy logikai változás / egy commit), soha törött kód.
 - **Új projekt**: `git init` → `.gitignore` → `git commit -m "Initial commit"`.
 - **Visszavonás**: `git revert <sha>` — ne patch-ekkel kombináld.
@@ -28,9 +28,9 @@ Formátum: `<type>(<scope>): <subject>` — scope opcionális, kebab-case.
 
 **Subject szabályok:**
 
-- Imperatív, jelen idő: `add`, `fix`, `remove` — ne `added`/`fixed`.
+- Imperatív, jelen idő: `add`, `fix` — ne `added`/`fixed`.
 - Max 72 karakter, kisbetűvel, végén nincs pont.
-- Konkrét, ne vága (`feat: improve API` ❌ → `feat: add rate limiting to auth endpoints` ✅).
+- Konkrét (`feat: improve API` ❌ → `feat: add rate limiting to auth endpoints` ✅).
 
 **Breaking change**: `feat!:` vagy `BREAKING CHANGE:` footer a body-ban.
 
