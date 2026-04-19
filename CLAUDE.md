@@ -4,7 +4,7 @@
 @~/.claude/rules/episodic-memory.md
 @~/.claude/rules/context7.md
 
-@~/.claude/rules/secrets.md
+@~/.claude/rules/enviroment.md
 @~/.claude/rules/git.md
 
 ## Nyelvválasztás
