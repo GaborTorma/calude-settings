@@ -1,5 +1,6 @@
 @~/.claude/rules/karpathy-guidelines.md
 @~/.claude/rules/solid.md
+@~/.claude/rules/stack.md
 
 @~/.claude/rules/episodic-memory.md
 @~/.claude/rules/context7.md
@@ -9,5 +10,5 @@
 
 ## Nyelvválasztás
 
-- **Web app (frontend + backend)** → TypeScript
+- **Web app (frontend + backend)** → NodeJS, TypeScript
 - **AI, automatizálás, bot, script** → Python
