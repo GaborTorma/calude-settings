@@ -1,10 +1,8 @@
 # Git workflow
 
-- **Branch**: `feature/...` vagy `fix/...`.
-- **Commit**: minden tesztelt lépés után, kérés nélkül is. Atomikus (egy logikai változás / egy commit), soha törött kód.
 - **Új projekt**: `git init` → `.gitignore` → `git commit -m "Initial commit"`.
 - **Visszavonás**: `git revert <sha>` — ne patch-ekkel kombináld.
-- **Tilos**: `--no-verify`, `push --force` main-re, `reset --hard` megerősítés nélkül. Hook-bukás = javítsd az okát, ne kerüld meg.
+- **Tilos**: `--no-verify`, `push --force` main-re, `reset --hard` megerősítés nélkül.
 
 ## Conventional Commits
 
