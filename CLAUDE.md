@@ -4,6 +4,7 @@
 
 @~/.claude/rules/episodic-memory.md
 @~/.claude/rules/context7.md
+@~/.claude/rules/socraticode.md
 
 @~/.claude/rules/enviroment.md
 @~/.claude/rules/git.md
