@@ -1,5 +1,6 @@
 @~/.claude/rules/karpathy-guidelines.md
 @~/.claude/rules/solid.md
+@~/.claude/rules/sgt-driven.md
 @~/.claude/rules/stack.md
 
 @~/.claude/rules/episodic-memory.md
