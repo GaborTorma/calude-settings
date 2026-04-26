@@ -4,5 +4,5 @@
 
 **Függőségek**: minél kevesebb, de észszerűen: ne írj 500 sort azért, hogy elkerülj egy jó libet; ne húzz be libet 3 sornyi kódért.
 
-**Prefernciák**: `vite`,`vitest`,`tailwind`,`zod`,`sqlite`,`postgres`, Claude preview
+**Prefernciák**: `vite`,`vitest`,`tailwind`,`zod`,`sqlite`,`postgres`,`pm2`, Claude preview
 **Kizárások**: `express`

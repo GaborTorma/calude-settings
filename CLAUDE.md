@@ -8,6 +8,7 @@
 
 @~/.claude/rules/enviroment.md
 @~/.claude/rules/git.md
+@~/.claude/rules/pm2.md
 
 ## Nyelvválasztás
 
