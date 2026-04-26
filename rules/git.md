@@ -1,8 +1,10 @@
 # Git workflow
 
 - **Új projekt**: `git init` → `.gitignore` → `git commit -m "Initial commit"`.
-- **Visszavonás**: `git revert <sha>` — ne patch-ekkel kombináld.
-- **Tilos**: `--no-verify`, `push --force` main-re, `reset --hard` megerősítés nélkül.
+- **Commit**: automtikusan a tesztelt és **JÓVÁHAGYOTT** TODO lépések után.
+- **Auto-commit**: Csak auto-plan/TODO végrejatáskor, ha nincs user interakció.
+- **Visszavonás**: `git revert <sha>` — nem patchek!
+- **Tilos**: `--no-verify`, `push --force` main-re, `reset --hard` vagy `pr` megerősítés nélkül.
 
 ## Conventional Commits
 
@@ -20,14 +22,14 @@ Formátum: `<type>(<scope>): <subject>` — scope opcionális, kebab-case.
 | `style`    | formázás (nincs kódváltozás)        | —      |
 | `test`     | tesztek                             | —      |
 | `build`    | build rendszer                      | —      |
-| `ci`       | CI konfig                           | —      |
+| `deploy`   | deploy rendszer                     | —      |
 | `chore`    | karbantartás                        | —      |
 | `revert`   | korábbi commit visszavonása         | —      |
 
 **Subject szabályok:**
 
 - Imperatív, jelen idő: `add`, `fix` — ne `added`/`fixed`.
-- Max 72 karakter, kisbetűvel, végén nincs pont.
+- Max 100 karakter, kisbetűvel, végén nincs pont.
 - Konkrét (`feat: improve API` ❌ → `feat: add rate limiting to auth endpoints` ✅).
 
 **Breaking change**: `feat!:` vagy `BREAKING CHANGE:` footer a body-ban.
