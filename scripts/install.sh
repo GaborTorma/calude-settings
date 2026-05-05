@@ -1,32 +1,28 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 MARKER="# claude-settings auto-update"
-UPDATE_CMD="git -C \"$REPO_DIR\" pull --quiet --ff-only 2>/dev/null || true"
+UPDATE_CMD="bash \"$REPO_DIR/scripts/sync.sh\" --quiet 2>/dev/null || true"
 HOOK_LINE="${MARKER}"$'\n'"${UPDATE_CMD}"
 
-# Egész mappa egy symlinkként a ~/.claude alá. Csak ott használd, ahol
-# garantáltan minden fájl ebből a repóból jön (más eszközök nem írhatnak bele).
+# Egész mappa-symlink ~/.claude alá. Csak ott, ahol minden fájl ebből a repóból
+# jön (más eszköz nem ír bele).
 SYMLINK_TARGETS=(
   "rules"
   "CLAUDE.md"
   "settings.local.json"
 )
 
-# Mappák, amik tartalma fájlonként symlinkelődik a célba. A célmappa valódi
-# directory marad ~/.claude/-ban, így más eszközök (pl. lean-ctx hookjai,
-# pluginok parancsai) is hozzáadhatnak saját fájlokat. A repóba új fájl
-# bekerülése a következő install/update-kor automatikusan szimlinkelődik.
+# Mappa marad valódi directory, fájlonként symlink. Más eszközök (pluginok,
+# lean-ctx) is dobhatnak ide saját fájlt.
 DIR_FILE_SYMLINK_TARGETS=(
   "commands"
   "hooks"
 )
 
-detect_shell() {
-  basename "${SHELL:-}"
-}
+detect_shell() { basename "${SHELL:-}"; }
 
 rc_file_for() {
   case "$1" in
@@ -35,6 +31,12 @@ rc_file_for() {
     fish) echo "$HOME/.config/fish/config.fish" ;;
     *)    echo "" ;;
   esac
+}
+
+confirm() {
+  local answer
+  read -r -p "$1 [i/N] " answer
+  [[ "$answer" =~ ^[iI]$ ]]
 }
 
 install_hook() {
@@ -46,21 +48,26 @@ install_hook() {
     exit 1
   fi
 
+  mkdir -p "$(dirname "$rc")"
+
   if grep -qF "$MARKER" "$rc" 2>/dev/null; then
-    echo "Hook már telepítve: $rc"
+    local current
+    current="$(awk -v m="$MARKER" 'f{print; exit} index($0,m){f=1}' "$rc")"
+    if [ "$current" = "$UPDATE_CMD" ]; then
+      echo "Hook naprakész: $rc"
+      return
+    fi
+
+    local tmp; tmp="$(mktemp)"
+    awk -v m="$MARKER" 'index($0,m){skip=2} skip>0{skip--; next} {print}' "$rc" > "$tmp"
+    mv "$tmp" "$rc"
+    printf '\n%s\n' "$HOOK_LINE" >> "$rc"
+    echo "Hook frissítve: $rc"
     return
   fi
 
-  mkdir -p "$(dirname "$rc")"
   printf '\n%s\n' "$HOOK_LINE" >> "$rc"
   echo "Hook hozzáadva: $rc"
-}
-
-confirm() {
-  local prompt="$1"
-  local answer
-  read -r -p "$prompt [i/N] " answer
-  [[ "$answer" =~ ^[iI]$ ]]
 }
 
 link_one() {
@@ -74,7 +81,6 @@ link_one() {
   mkdir -p "$(dirname "$dst")"
 
   if [ -L "$dst" ] && [ "$(readlink "$dst")" = "$src" ]; then
-    echo "Már symlink: $dst"
     return
   fi
 
@@ -99,14 +105,11 @@ link_dir_files() {
     return
   fi
 
-  # Migráció: ha a célmappa korábban egész symlink volt, váltsuk át valódi
-  # mappára. Saját repónkra mutató symlink → automatikus; idegen target → confirm.
+  # Migráció: korábbi egész-mappa-symlinket cseréljük valódi mappára.
   if [ -L "$dst_dir" ]; then
-    local current_target
-    current_target="$(readlink "$dst_dir")"
+    local current_target; current_target="$(readlink "$dst_dir")"
     if [ "$current_target" = "$src_dir" ] \
        || confirm "Létezik mappa-symlink: $dst_dir → $current_target. Felülírjam valódi mappára?"; then
-      echo "Migráció: $dst_dir mappa-symlink → valódi mappa"
       rm "$dst_dir"
     else
       echo "Kihagyva: $dst_dir"
