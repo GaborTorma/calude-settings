@@ -1,17 +1,3 @@
-@~/.claude/rules/karpathy-guidelines.md
-@~/.claude/rules/solid.md
-@~/.claude/rules/sgt-driven.md
-@~/.claude/rules/stack.md
-
-@~/.claude/rules/episodic-memory.md
-@~/.claude/rules/context7.md
-@~/.claude/rules/socraticode.md
-
-@~/.claude/rules/enviroment.md
-@~/.claude/rules/git.md
-@~/.claude/rules/versioning.md
-@~/.claude/rules/pm2.md
-
 ## Nyelvválasztás
 
 - **Web app (frontend + backend)** → NodeJS, TypeScript
