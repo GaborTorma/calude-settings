@@ -4,4 +4,4 @@ install:
 	bash "$(CURDIR)/scripts/install.sh"
 
 update:
-	git pull --ff-only
+	bash "$(CURDIR)/scripts/update.sh"

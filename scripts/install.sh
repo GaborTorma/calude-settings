@@ -7,11 +7,21 @@ MARKER="# claude-settings auto-update"
 UPDATE_CMD="git -C \"$REPO_DIR\" pull --quiet --ff-only 2>/dev/null || true"
 HOOK_LINE="${MARKER}"$'\n'"${UPDATE_CMD}"
 
+# Egész mappa egy symlinkként a ~/.claude alá. Csak ott használd, ahol
+# garantáltan minden fájl ebből a repóból jön (más eszközök nem írhatnak bele).
 SYMLINK_TARGETS=(
-  "commands"
   "rules"
   "CLAUDE.md"
   "settings.local.json"
+)
+
+# Mappák, amik tartalma fájlonként symlinkelődik a célba. A célmappa valódi
+# directory marad ~/.claude/-ban, így más eszközök (pl. lean-ctx hookjai,
+# pluginok parancsai) is hozzáadhatnak saját fájlokat. A repóba új fájl
+# bekerülése a következő install/update-kor automatikusan szimlinkelődik.
+DIR_FILE_SYMLINK_TARGETS=(
+  "commands"
+  "hooks"
 )
 
 detect_shell() {
@@ -53,36 +63,74 @@ confirm() {
   [[ "$answer" =~ ^[iI]$ ]]
 }
 
+link_one() {
+  local src="$1" dst="$2"
+
+  if [ ! -e "$src" ]; then
+    echo "Kihagyva (nem létezik a repóban): $src"
+    return
+  fi
+
+  mkdir -p "$(dirname "$dst")"
+
+  if [ -L "$dst" ] && [ "$(readlink "$dst")" = "$src" ]; then
+    echo "Már symlink: $dst"
+    return
+  fi
+
+  if [ -e "$dst" ] || [ -L "$dst" ]; then
+    if confirm "Létezik: $dst — felülírjam symlink-kel?"; then
+      rm -rf "$dst"
+    else
+      echo "Kihagyva: $dst"
+      return
+    fi
+  fi
+
+  ln -s "$src" "$dst"
+  echo "Symlink: $dst → $src"
+}
+
+link_dir_files() {
+  local src_dir="$1" dst_dir="$2"
+
+  if [ ! -d "$src_dir" ]; then
+    echo "Kihagyva (nem mappa a repóban): $src_dir"
+    return
+  fi
+
+  # Migráció: ha a célmappa korábban egész symlink volt, váltsuk át valódi
+  # mappára. Saját repónkra mutató symlink → automatikus; idegen target → confirm.
+  if [ -L "$dst_dir" ]; then
+    local current_target
+    current_target="$(readlink "$dst_dir")"
+    if [ "$current_target" = "$src_dir" ] \
+       || confirm "Létezik mappa-symlink: $dst_dir → $current_target. Felülírjam valódi mappára?"; then
+      echo "Migráció: $dst_dir mappa-symlink → valódi mappa"
+      rm "$dst_dir"
+    else
+      echo "Kihagyva: $dst_dir"
+      return
+    fi
+  fi
+
+  mkdir -p "$dst_dir"
+
+  for src in "$src_dir"/*; do
+    [ -e "$src" ] || continue
+    link_one "$src" "$dst_dir/$(basename "$src")"
+  done
+}
+
 install_symlinks() {
   mkdir -p "$CLAUDE_DIR"
 
   for name in "${SYMLINK_TARGETS[@]}"; do
-    local src="$REPO_DIR/$name"
-    local dst="$CLAUDE_DIR/$name"
+    link_one "$REPO_DIR/$name" "$CLAUDE_DIR/$name"
+  done
 
-    if [ ! -e "$src" ]; then
-      echo "Kihagyva (nem létezik a repóban): $src"
-      continue
-    fi
-
-    # már helyes symlink → skip
-    if [ -L "$dst" ] && [ "$(readlink "$dst")" = "$src" ]; then
-      echo "Már symlink: $dst"
-      continue
-    fi
-
-    # létezik valami más → kérdez
-    if [ -e "$dst" ] || [ -L "$dst" ]; then
-      if confirm "Létezik: $dst — felülírjam symlink-kel?"; then
-        rm -rf "$dst"
-      else
-        echo "Kihagyva: $dst"
-        continue
-      fi
-    fi
-
-    ln -s "$src" "$dst"
-    echo "Symlink: $dst → $src"
+  for dir in "${DIR_FILE_SYMLINK_TARGETS[@]}"; do
+    link_dir_files "$REPO_DIR/$dir" "$CLAUDE_DIR/$dir"
   done
 }
 
