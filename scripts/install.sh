@@ -7,6 +7,9 @@ MARKER="# claude-settings auto-update"
 UPDATE_CMD="bash \"$REPO_DIR/scripts/sync.sh\" --quiet 2>/dev/null || true"
 HOOK_LINE="${MARKER}"$'\n'"${UPDATE_CMD}"
 
+NO_HOOK=0
+[ "${1:-}" = "--no-hook" ] && NO_HOOK=1
+
 # Egész mappa-symlink ~/.claude alá. Csak ott, ahol minden fájl ebből a repóból
 # jön (más eszköz nem ír bele).
 SYMLINK_TARGETS=(
@@ -135,15 +138,25 @@ install_symlinks() {
   for dir in "${DIR_FILE_SYMLINK_TARGETS[@]}"; do
     link_dir_files "$REPO_DIR/$dir" "$CLAUDE_DIR/$dir"
   done
+
+  # Plugin marketplace: a repo plugins/ mappáját ~/.claude/local-plugins-be
+  # symlinkeljük (mivel ~/.claude/plugins/ a Claude Code saját mappája).
+  link_one "$REPO_DIR/plugins" "$CLAUDE_DIR/local-plugins"
 }
 
 main() {
+  install_symlinks
+
+  if [ "$NO_HOOK" -eq 1 ]; then
+    echo "Kész (shell rc érintetlen — --no-hook)."
+    return
+  fi
+
   local shell rc
   shell="$(detect_shell)"
   rc="$(rc_file_for "$shell")"
 
   echo "Shell: $shell"
-  install_symlinks
   install_hook "$rc"
   echo "Kész."
 }
