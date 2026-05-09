@@ -1,0 +1,5 @@
+# lean-ctx kód-graph cache (helyileg generált)
+.lean-ctx/
+
+# macOS
+.DS_Store
