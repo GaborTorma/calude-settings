@@ -1,0 +1,14 @@
+{
+  "name": "torma-ai",
+  "owner": {
+    "name": "Gábor Torma"
+  },
+  "plugins": [
+    {
+      "name": "intent-driven-planning",
+      "description": "Intent-Driven Planning — Intent → Spec → Plan három fázisú workflow",
+      "version": "0.1.0",
+      "source": "./intent-driven-planning"
+    }
+  ]
+}

@@ -1,4 +1,15 @@
 {
+  "extraKnownMarketplaces": {
+    "torma-ai": {
+      "source": {
+        "source": "file",
+        "path": "~/.claude/local-plugins/.claude-plugin/marketplace.json"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "intent-driven-planning@torma-ai": true
+  },
   "permissions": {
     "allow": [
       "Bash(npm run *)",
