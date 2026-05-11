@@ -113,13 +113,15 @@ A változás hatóköre — **mit** érint a változás. Kategóriák: módosít
 
 ## Megvalósítási napló
 
-_Az implementáció során bővül. Minden bejegyzés végén commit-hash referencia: `(<commit-hash>)`._
+<!-- Az implementáció során bővül. Csak a Plan és a megvalósult kód közötti **deltákat** rögzíti (eltérés, fix, follow-up, refactor) — a Plan szerint lefutott `IS-XX` / `MS-XX:IS-YY` lépéseket nem ismétli. -->
 
-- **IL-01** — <Eltérés / fix / follow-up leírás.> (`<commit-hash>`)
+### IL-01 — <Bejegyzés rövid címe>
 
-### Érintett fájlok (opcionális, hosszabb naplónál hasznos)
+- **Típus**: Eltérés | Fix | Follow-up | Refactor
+- **Érintett**: `IS-XX` / `MS-XX:IS-YY` / `AC-XX` / `FR-XX` (vagy `—`, ha a Plan-ban nem szerepelt)
+- **Indoklás**: <1-2 mondat a motivációról / triggerről: mi váltotta ki a deltát — mi derült ki, milyen bugot fedeztünk fel, miért nem volt megfelelő a Plan-megközelítés.>
+- **Delta**: <1-2 mondat — a delta konkrét tartalma: hogyan tértünk el / mit fixáltunk / mit vettünk fel follow-up-ként. **Ne ismételd a Plan-tételt** — csak a deltát írd le.>
+- **Commit**: `<commit-hash1>`, `<commit-hash2>`
 
-| Fájl                         | Naplóbejegyzések | Érintő commitok      |
-| ---------------------------- | ---------------- | -------------------- |
-| [path/to/file](path/to/file) | `IL-01`, `IL-03` | `<hash1>`, `<hash2>` |
+<!-- További bejegyzések (### IL-02, ### IL-03, ...) ugyanezzel a struktúrával. -->
 ```
