@@ -14,6 +14,8 @@ A beszélgetésben legyen véglegesített `Intent` + `Spec`. Új sessionben olva
 
 1. **`Plan` tervezete** az elfogadott `Intent` + `Spec` alapján → iteratív finomítás (lépések pontosítása, edge case-ek, verifikáció erősítése). A `Branch` sorba **konkrét név** kerüljön, ne placeholder.
 
+   **Milestone-bontás megfontolása**: ha a Spec AC-i és a tervezett változtatások több, **e2e-tesztelhető és release-worthy egységre** bonthatók (pl. külön rétegek, önállóan demo-able increment-ek), javasolj `MS-XX` milestone-csoportokat. Kisebb, egyetlen e2e-egységnyi feladatnál maradj a flat `IS-XX` listánál. A user dönt a Plan-review-ban.
+
 2. **`ExitPlanMode` hívás**: a teljes **Spec-fájl** tartalma (mindhárom szakasszal) megy review-ra. Visszajelzés → iteráció → újra `ExitPlanMode`.
 
 3. **Approve után — mentés**: kilépés a Plan harness-ből, és a véglegesített tartalom mentése a megegyezett **Spec-fájl** útvonalra.
@@ -55,6 +57,15 @@ A változás hatóköre — **mit** érint a változás. Kategóriák: módosít
 
 ### Implementációs lépések
 
+<!--
+  Két alak közül VÁLASSZ EGYET, a másik blokkot töröld:
+  • Flat (alapeset) — kis feladat, egyetlen e2e-tesztelhető egység.
+  • Multi-stage (opcionális) — több e2e-tesztelhető, release-worthy increment;
+    MS-XX milestone-csoportok, lokális `MS-XX:IS-YY` lépésszámozás, milestone-onkénti MV-XX verify.
+-->
+
+<!-- ───────────── OPCIÓ A — Flat alak ───────────── -->
+
 #### IS-01 — <Lépés rövid címe>
 
 - **Művelet**: <konkrét teendő — milyen fájl(oka)t érint, milyen változás.>
@@ -65,9 +76,31 @@ A változás hatóköre — **mit** érint a változás. Kategóriák: módosít
 
 <!-- További lépések (#### IS-02, #### IS-03, ...) ugyanezzel a struktúrával. -->
 
+<!-- ───────────── OPCIÓ B — Multi-stage alak ───────────── -->
+
+#### MS-01 — <Milestone rövid címe, ami egy e2e-tesztelhető release-worthy egységet ír le>
+
+##### MS-01:IS-01 — <Lépés rövid címe>
+
+- **Művelet**: <konkrét teendő — milyen fájl(oka)t érint, milyen változás.>
+- **Failing test**: <melyik teszt vagy assert reprodukálja a hiányosságot/bugot.>
+- **Implementáció**: <a minimum kód, ami zöldre viszi a tesztet.>
+- **Verify**: <pontos parancs vagy ellenőrzés, pl. `npm test path/to/file` zöld; manual: <X> működik.>
+- **Commit**: `<conventional commit message>`
+
+<!-- További step-ek: ##### MS-01:IS-02, ##### MS-01:IS-03, ... -->
+
+##### MS-01 — Milestone verify
+
+- **MV-01** — Minden `MS-01:IS-YY` `Verify`-ja zöld.
+- **MV-02** — Integrációs / cross-cutting smoke: <e2e parancs vagy lépés, ami az MS-01 egységet végigfuttatja>.
+- **MV-03** — Branch release-worthy: az MS-01-hez tartozó Spec AC-XX teljesítve, a korábbi funkciók nem törtek el.
+
+<!-- További milestone-ok (#### MS-02, #### MS-03, ...) ugyanezzel a struktúrával, lokális IS-számozással és saját MV blokkal. -->
+
 ### Globális verifikáció (a teljes Plan végén)
 
-- **GV-01** — Minden lépés `Verify`-ja zöld.
+- **GV-01** — Minden lépés (`IS-XX` vagy `MS-XX:IS-YY`) és — ha vannak — minden `MV-XX` zöld.
 - **GV-02** — Minden ismert edge case-hez van failing test és zöld.
 - **GV-03** — Spec elfogadási kritériumok mind teljesítve.
 - **GV-04** — Lint / typecheck / build hibamentes.
