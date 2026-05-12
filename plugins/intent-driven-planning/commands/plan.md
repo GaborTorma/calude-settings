@@ -121,7 +121,7 @@ A változás hatóköre — **mit** érint a változás. Kategóriák: módosít
 - **Érintett**: `IS-XX` / `MS-XX:IS-YY` / `AC-XX` / `FR-XX` (vagy `—`, ha a Plan-ban nem szerepelt)
 - **Indoklás**: <1-2 mondat a motivációról / triggerről: mi váltotta ki a deltát — mi derült ki, milyen bugot fedeztünk fel, miért nem volt megfelelő a Plan-megközelítés.>
 - **Delta**: <1-2 mondat — a delta konkrét tartalma: hogyan tértünk el / mit fixáltunk / mit vettünk fel follow-up-ként. **Ne ismételd a Plan-tételt** — csak a deltát írd le.>
-- **Commit**: `<commit-hash1>`, `<commit-hash2>`
+- **Nyitott** (opcionális): <amit nem sikerült megcsinálni, későbbre halasztottuk — pl. follow-up ticket, tech-debt jegyzet. Csak akkor írd ki, ha van ilyen.>
 
-<!-- További bejegyzések (### IL-02, ### IL-03, ...) ugyanezzel a struktúrával. -->
+<!-- További bejegyzések (### IL-02, ### IL-03, ...) ugyanezzel a struktúrával. Ha olyan dolog történik, ami egy korábbi `IL-XX` bejegyzést érint (pl. egy korábbi `Nyitott` tétel teljesül), a meglévő bejegyzést kell frissíteni — ne nyiss újat. -->
 ```

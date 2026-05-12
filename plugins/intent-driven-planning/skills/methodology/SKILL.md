@@ -44,6 +44,8 @@ A **Spec-fájl** szakaszai különböző életciklust követnek a Plan-jóváhag
 
    **Mit NEM rögzít a napló**: a Plan változatlan lefutása nem keletkeztet bejegyzést — ha egy `IS-XX` (vagy `MS-XX:IS-YY`) lépés pontosan a Plan szerint ment, nincs delta amit rögzíteni kellene.
 
+   **Korábbi bejegyzés frissítése új helyett**: ha olyan dolog történik, ami egy **korábbi `IL-XX` bejegyzést érint** (pl. egy korábbi `Nyitott` tétel teljesül, egy korábbi delta tovább módosul vagy visszavonódik), akkor a **meglévő bejegyzést kell frissíteni** — ne nyiss újat. Új `IL-XX` csak független, új deltához készül.
+
 - **Intent szintű változás** (a probléma vagy cél maga változik): állj meg, és egyeztess a userrel.
 
 ### Megvalósítási napló — példa bejegyzések
@@ -54,7 +56,6 @@ A **Spec-fájl** szakaszai különböző életciklust követnek a Plan-jóváhag
 - **Érintett**: `IS-04`
 - **Indoklás**: A Plan-megközelítés (közvetlen módosítás) duplikációt hozott volna egy meglévő segédfüggvénnyel; implementáláskor derült ki, hogy a helper kiterjesztése egyszerűbb és kevesebb új kódot igényel.
 - **Delta**: Az `IS-04` célját a meglévő segédfüggvény kiterjesztésével értük el, közvetlen módosítás helyett. A Failing test és az eredmény változatlan; csak a megvalósítás módja tér el a Plantól.
-- **Commit**: `<hash>`
 
 #### IL-02 — Menet közben felfedezett bug fixe
 
@@ -62,4 +63,4 @@ A **Spec-fájl** szakaszai különböző életciklust követnek a Plan-jóváhag
 - **Érintett**: `—` (Plan-ban nem szerepelt)
 - **Indoklás**: Az `IS-05` implementálásakor egy meglévő edge case bug derült ki — a kód hibás állapotba kerül; a bug blokkolja az `IS-05` Failing test-jét, ezért itt és most javítható (külön ticketre halasztva regressziót okozna a Plan későbbi lépéseinek tesztjeiben).
 - **Delta**: Minimális javítás az érintett függvényben; az `IS-05` Failing test-je ezután már a tervezett viselkedést méri, a Plan többi lépését nem mozdítja.
-- **Commit**: `<hash>`
+- **Nyitott**: a fix mellé tartozó regressziós teszt megírása későbbre halasztva — külön follow-up ticketre kerül, mert a Plan scope-ján kívül esik.
