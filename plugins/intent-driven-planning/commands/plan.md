@@ -22,7 +22,7 @@ A beszélgetésben legyen véglegesített `Intent` + `Spec`. Új sessionben olva
 
 4. **Session-javaslat**: tegyél indoklással ellátott ajánlást, hogy a megvalósítás **új sessionben** induljon (tisztább kontextus, kevesebb plan-mód-zaj — nagyobb feladatnál ajánlott) vagy **az aktuálisban folytatódjon** (kicsi, gyors feladat; a kontextus még friss). A döntés a useré.
 
-5. **STOP**: implementáció csak a user explicit jóváhagyása után indulhat!
+5. **STOP**: implementáció csak a user explicit jóváhagyása után, az `intent-driven-planning:apply` commanddal indul.
 
 ---
 
@@ -66,7 +66,7 @@ A változás hatóköre — **mit** érint a változás. Kategóriák: módosít
 
 <!-- ───────────── OPCIÓ A — Flat alak ───────────── -->
 
-#### IS-01 — <Lépés rövid címe>
+#### [ ] IS-01 — <Lépés rövid címe>
 
 - **Művelet**: <konkrét teendő — milyen fájl(oka)t érint, milyen változás.>
 - **Failing test**: <melyik teszt vagy assert reprodukálja a hiányosságot/bugot.>
@@ -78,9 +78,9 @@ A változás hatóköre — **mit** érint a változás. Kategóriák: módosít
 
 <!-- ───────────── OPCIÓ B — Multi-stage alak ───────────── -->
 
-#### MS-01 — <Milestone rövid címe, ami egy e2e-tesztelhető release-worthy egységet ír le>
+#### [ ] MS-01 — <Milestone rövid címe, ami egy e2e-tesztelhető release-worthy egységet ír le>
 
-##### MS-01:IS-01 — <Lépés rövid címe>
+##### [ ] MS-01:IS-01 — <Lépés rövid címe>
 
 - **Művelet**: <konkrét teendő — milyen fájl(oka)t érint, milyen változás.>
 - **Failing test**: <melyik teszt vagy assert reprodukálja a hiányosságot/bugot.>

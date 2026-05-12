@@ -5,16 +5,17 @@ description: Intent-Driven Planning módszertan kontextusa — slug/branch konve
 
 # Intent-Driven Planning — Methodology
 
-Az Intent-Driven Planning három fázisra (intent → spec → plan) bontja a feature/refactor előkészítését + egy mellék-command (`review`) tervezés közbeni koherencia-ellenőrzéshez. Mindegyik külön slash commanddal indul; fájlt csak az `intent-driven-planning:plan` ír.
+Az Intent-Driven Planning három tervezési fázisra (intent → spec → plan) és egy megvalósítási fázisra (apply) bontja a feature / refactor / fix munkafolyamatot, + egy mellék-command (`review`) tervezés közbeni koherencia-ellenőrzéshez. Mindegyik külön slash commanddal indul; fájlt az `intent-driven-planning:plan` ír (mentés), az `intent-driven-planning:apply` pedig bővít.
 
 | Fázis | Command                         | Tartalom                                                                                      |
 | ----- | ------------------------------- | --------------------------------------------------------------------------------------------- |
 | 1     | `intent-driven-planning:intent` | Probléma, célok, sikerkritérium, NEM-célok, későbbi megvalósítás                              |
 | 2     | `intent-driven-planning:spec`   | Funkcionális + nem-funkcionális követelmények, elfogadási kritériumok                         |
 | 3     | `intent-driven-planning:plan`   | Tervezett változtatások + implementációs lépések (TDD-szerűen) + teljes **Spec-fájl** mentése |
+| 4     | `intent-driven-planning:apply`  | Plan-lépések megvalósítása TDD-ciklusban + `Megvalósítási napló` bővítése deltákkal           |
 | —     | `intent-driven-planning:review` | Tervezés közben futtatható koherencia-check a draft-on (report-only)                          |
 
-A három fázis-command iteratív review-t használ a Plan harness-en keresztül; csak `intent-driven-planning:plan` approve-ja jelenti a teljes terv jóváhagyását és a fájl mentését. A `review` nem mutál semmit, és nem kötődik fázishoz — bármelyik draft-állapotra adaptívan fut.
+A három tervezési fázis-command iteratív review-t használ a Plan harness-en keresztül; csak `intent-driven-planning:plan` approve-ja jelenti a teljes terv jóváhagyását és a fájl mentését. A `review` nem mutál semmit, és nem kötődik fázishoz — bármelyik draft-állapotra adaptívan fut.
 
 ## Elnevezés
 
@@ -37,7 +38,7 @@ A **Spec-fájl** szakaszai különböző életciklust követnek a Plan-jóváhag
    - Ha a `Plan` írásakor kiderül valami, ami a `Spec`-et vagy `Intent`-et érinti, azokat is frissíteni kell.
    - A `Plan`-jóváhagyás egy konzisztens, koherens dokumentumra menjen át.
 
-- **Plan-jóváhagyás után — fagyott állapot**: az `Intent`, `Spec`, `Plan` szakaszokat **többé nem módosítjuk**. Ezek tükrözik, mire vállalkoztunk a tervezéskor.
+- **Plan-jóváhagyás után — fagyott állapot**: az `Intent`, `Spec`, `Plan` szakaszok **tartalma többé nem módosul**. Ezek tükrözik, mire vállalkoztunk a tervezéskor. **Egyetlen kivétel**: a Plan-lépés-headingek (`IS-XX` / `MS-XX` / `MS-XX:IS-YY`) `[ ]` → `[x]` állapot-jelölése implementáció közben — ez nem tartalmi módosítás, csak haladás-tracking.
 
 - **Implementáció közben — `## Megvalósítási napló` bővül**: az eltérések, fix-ek, follow-up-ok és refactorok a Plan után fűzött `Megvalósítási napló` szakaszba kerülnek **strukturált bejegyzésként** (sablon: `intent-driven-planning:plan` Sablon szakasza). Az eredeti három szakasz változatlan marad — a napló adja a "tényleges megvalósítás" rétegét.
 
