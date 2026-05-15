@@ -23,16 +23,21 @@ Iteráció során a próza tendenciózusan hízik, és részletek szivárognak b
    - **Ha a user megerősíti**: a Spec/Plan draftokat tekintsd érvénytelennek, és csak az új `Intent`-tel haladj tovább.
    - **Ha elutasítja**: állj le, és egyeztess a userrel, a folytatásról.
 
-2. **`Intent` tervezete** az első promptból: Probléma + Célok + NEM-célok + Későbbi megvalósítás.
+2. **Orientáció**:
+   - **Branch** — current branch (`git branch --show-current`); ha `<prefix>/<slug>` konvenciót követ, a slug a step 4 fájlnév-javaslat alapja.
+   - **Korábbi Spec-ek** — ha van `.spec/`, listázd és olvasd a relevánsakat (átfedő terület/réteg/feature-család, vagy átfedő `Célok` / `NEM-célok` / `Későbbi megvalósítás`).
+   - **Kódbázis** — célzott kutatás: érintett modul/réteg/függvény azonosítása (SocratiCode `codebase_search` / `ctx_search` / `Glob`), kulcs-fájlok `map` / `signatures` módban.
 
-3. **Slug + fájlnév egyeztetés**: javasold a slug-ot és — ha indokolt — az opcionális almappát; a user vagy elfogadja, vagy ad másikat.
+3. **`Intent` tervezete** az első prompt + orientáció alapján: Probléma + Célok + NEM-célok + Későbbi megvalósítás.
+
+4. **Slug + fájlnév egyeztetés**: javasold a slug-ot és — ha indokolt — az opcionális almappát; a user vagy elfogadja, vagy ad másikat.
    A javasolt **Spec-fájl** útvonal rögzítendő a beszélgetésben.
 
-4. **`ExitPlanMode` hívás** review-hoz: a tervezet kizárólag `Intent` tartalommal megy.
+5. **`ExitPlanMode` hívás** review-hoz: a tervezet kizárólag `Intent` tartalommal megy.
    Nyitott kérdés ne maradjon — a review előtt rendezd (`AskUserQuestion`).
    Visszajelzés → iteráció → újra `ExitPlanMode`.
 
-5. **STOP — itt véget ér.** Várj a user következő parancsára (`intent-driven-planning:spec`).
+6. **STOP — itt véget ér.** Várj a user következő parancsára (`intent-driven-planning:spec`).
 
 ---
 
@@ -48,6 +53,12 @@ A skeleton, amivel az `Intent` szakaszt tölti ki; a fel nem használt opcionál
 _Készítve: <YYYY-MM-DD — az `intent` futtatás napja>_
 
 ## Intent
+
+### Kapcsolódó Spec-fájlok
+
+<!-- Opcionális — csak ha az orientációban van releváns korábbi Spec-fájl. -->
+
+- [.spec/<group>/<other-slug>.md](.spec/<group>/<other-slug>.md) — <1 mondat: miért releváns (átfedő réteg / NEM-cél / Későbbi megvalósítás / korábbi döntés).>
 
 ### Probléma
 
