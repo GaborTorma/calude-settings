@@ -18,11 +18,11 @@ Ha viszont van draft, folytasd a check-kel.
 
 A jelen lévő szakaszoknak megfelelően (kumulatív — a `+` jelzi az előző sorhoz hozzáadódó kategóriákat):
 
-| Draft-állapot              | Aktív kategóriák                                 |
-| -------------------------- | ------------------------------------------------ |
-| Csak `Intent`              | 1, 4 (Célok vs NEM-célok), 5, 7, 8               |
-| `Intent` + `Spec`          | + 2 (Intent ↔ Spec lefedés), 6 (Spec teljesség)  |
-| `Intent` + `Spec` + `Plan` | + 3 (Spec ↔ Plan lefedés), 6 (Plan teljesség is) |
+| Draft-állapot              | Aktív kategóriák                                                      |
+| -------------------------- | --------------------------------------------------------------------- |
+| Csak `Intent`              | 1, 4 (Célok vs NEM-célok), 5, 8, 9                                    |
+| `Intent` + `Spec`          | + 2 (Intent ↔ Spec lefedés), 6 (Spec teljesség)                       |
+| `Intent` + `Spec` + `Plan` | + 3 (Spec ↔ Plan lefedés), 6 (Plan teljesség is), 7 (Plan mező-szem.) |
 
 ### Kategóriák
 
@@ -38,7 +38,7 @@ A jelen lévő szakaszoknak megfelelően (kumulatív — a `+` jelzi az előző 
 
 3. **Spec ↔ Plan lefedés**:
 
-- Minden `Spec.Elfogadási kritérium` köthető legalább egy `Plan`-lépés `Verify`-jéhez?
+- Minden `Spec.Elfogadási kritérium` köthető legalább egy `Plan`-lépés `Verify`-jéhez vagy a hozzá tartozó `MV-XX` / `GV-XX`-hez?
 - Van-e `Plan`-lépés, ami egyetlen Spec-követelményt sem szolgál?
 
 4. **NEM-célok ütközés**:
@@ -53,16 +53,22 @@ A jelen lévő szakaszoknak megfelelően (kumulatív — a `+` jelzi az előző 
 
 6. **Szakasz-teljesség**:
 
+- `Intent.Kapcsolódó Spec-fájlok` (opcionális): ha jelen, minden bejegyzés `[path](path) — <1 mondat indoklás>` formátum?
 - `Spec`: minden `FR-NN` megfigyelhető viselkedés (input → output formában)? `AC-NN` mind mérhető?
-- `Plan`: minden `#### IS-NN` lépésnél kitöltve `Művelet` / `Failing test` / `Implementáció` / `Verify` / `Commit`?
-- `Tervezett változtatások` (`CM-NN` / `CA-NN` / `CD-NN`) bulletjei egyszerűek, könnyen érthetőek?
+- `Plan`: minden `#### IS-NN` (vagy `MS-XX:IS-YY`) lépésnél kitöltve `Művelet` / `Implementáció` / `Commit`? `Failing test` és `Verify` kitöltve **vagy** `—` explicit `MV-XX` / `GV-XX` cross-reference-szel?
+- `Plan` multi-stage alak: minden `MS-XX` milestone-hoz tartozik legalább egy `MV-XX` blokk?
+- `Tervezett változtatások` (`CM-NN` / `CA-NN` / `CD-NN`) bulletjei `<hely> — <mit>` formátumban, tömören?
 
-7. **Terminológiai konzisztencia**:
+7. **Plan mező-szemantika** (csak Plan-szakasz esetén):
+
+- A Plan minden `Művelet` / `Implementáció` / `Failing test` / `Verify` / `MV-XX` / `GV-XX` / `Commit` / `Kockázat` bejegyzése megfelel a [Mező szemantika](./plan.md#mező-szemantika) szabályainak (kötelező cross-reference-ek, commit-ref formátum)?
+
+8. **Terminológiai konzisztencia**:
 
 - Ugyanaz a komponens-név / fogalom mindenütt?
 - NFR-ben említett metrika konkretizálva van-e az elfogadási kritériumokban?
 
-8. **Egyszerűsítés / tömörítés**:
+9. **Egyszerűsítés / tömörítés**:
 
 - Van-e olyan rész, ami **rövidebb, lényegre törőbb** megfogalmazással kifejezhető az értelem elvesztése nélkül?
 - Tartalmi **duplikáció**? Felesleges töltelékszó, redundáns minősítő ("nyilvánvalóan fontos", "általában szükséges"), feleslegesen ismételt magyarázat?
@@ -79,8 +85,8 @@ Three-tier severity:
 
 **Severity-besorolás**:
 
-- **Critical** 🚨: strukturális hiány, NEM-célok ütközés, megválaszolatlan kérdés Plan-jóváhagyás előtt, üres kötelező placeholder
-- **Warning** ⚠️: Spec ↔ Plan lefedés-rés, terminológiai eltérés, hiányos Plan-lépés mező
+- **Critical** 🚨: strukturális hiány, NEM-célok ütközés, megválaszolatlan kérdés Plan-jóváhagyás előtt, üres kötelező placeholder, nem konkrét/futtatható `MV-XX` / `GV-XX`
+- **Warning** ⚠️: Spec ↔ Plan lefedés-rés, terminológiai eltérés, hiányos Plan-lépés mező, [Mező szemantika](./plan.md#mező-szemantika) megsértése
 - **Info** ℹ️: redundancia, fogalmazási finomítás, opcionális mező nincs kitöltve
 
 ## Workflow
