@@ -16,62 +16,44 @@ Ha viszont van draft, folytasd a check-kel.
 
 ## Mit elemez (adaptív)
 
-A jelen lévő szakaszoknak megfelelően (kumulatív — a `+` jelzi az előző sorhoz hozzáadódó kategóriákat):
+A draft állapotához igazodva, kumulatívan: minden szekció hozzáadja a saját check-jeit az előzőhöz.
 
-| Draft-állapot              | Aktív kategóriák                                                      |
-| -------------------------- | --------------------------------------------------------------------- |
-| Csak `Intent`              | 1, 4 (Célok vs NEM-célok), 5, 8, 9                                    |
-| `Intent` + `Spec`          | + 2 (Intent ↔ Spec lefedés), 6 (Spec teljesség)                       |
-| `Intent` + `Spec` + `Plan` | + 3 (Spec ↔ Plan lefedés), 6 (Plan teljesség is), 7 (Plan mező-szem.) |
-
-### Kategóriák
-
-1. **Strukturális teljesség**:
+### Csak `Intent`
 
 - A draft kötelező szakaszai megvannak? `Készítve` dátum kitöltve?
-- Ha `Plan` van: a `Branch` sor konkrét név (nem placeholder)?
+- Title-line, `> **Spec-fájl**: ...` path és `Probléma` szakasz konkrét tartalmú (nem `<...>` placeholder)?
+- Az `Intent`-en belül van-e logikai ütközés `Célok` (`GL-NN`) és `NEM-célok` (`NG-NN`) között?
+- `Későbbi megvalósítás` (`LI-NN`, opcionális): ha jelen, nem ütközik `Célok` / `NEM-célok`-kal?
+- Az `Intent.Nyitott kérdések` szakaszában maradt megválaszolatlan tétel?
+- Bármelyik szakaszban van `TODO` / `TBD` / `?` marker?
+- `Intent.Kapcsolódó Spec-fájlok` (opcionális): ha jelen, minden bejegyzés `[path](path) — <1 mondat indoklás>` formátum?
+- Ugyanaz a komponens-név / fogalom mindenütt?
+- Van-e olyan rész, ami **rövidebb, lényegre törőbb** megfogalmazással kifejezhető az értelem elvesztése nélkül?
+- Tartalmi **duplikáció**? Felesleges töltelékszó, redundáns minősítő ("nyilvánvalóan fontos", "általában szükséges"), feleslegesen ismételt magyarázat?
 
-2. **Intent ↔ Spec lefedés**:
+### `+ Spec`
 
 - Az `Intent.Célok` (`GL-NN`) minden eleméhez tartozik legalább egy követelmény a `Spec`-ben?
 - Van-e `Spec`-követelmény, ami egyik célhoz sem köthető?
-
-3. **Spec ↔ Plan lefedés**:
-
-- Minden `Spec.Elfogadási kritérium` köthető legalább egy `Plan`-lépés `Verify`-jéhez vagy a hozzá tartozó `MV-XX` / `GV-XX`-hez?
-- Van-e `Plan`-lépés, ami egyetlen Spec-követelményt sem szolgál?
-
-4. **NEM-célok ütközés**:
-
-- Az `Intent`-en belül van-e logikai ütközés `Célok` (`GL-NN`) és `NEM-célok` (`NG-NN`) között?
-- A `Spec` vagy `Plan` ír-e olyat, amit az `Intent.NEM-célok` explicit kizár?
-
-5. **Nyitott kérdések**:
-
-- Az `Intent` és `Spec` `Nyitott kérdések` szakaszában maradt megválaszolatlan tétel?
-- Akármelyik szakaszban van `TODO` / `TBD` / `?` marker?
-
-6. **Szakasz-teljesség**:
-
-- `Intent.Kapcsolódó Spec-fájlok` (opcionális): ha jelen, minden bejegyzés `[path](path) — <1 mondat indoklás>` formátum?
-- `Spec`: minden `FR-NN` megfigyelhető viselkedés (input → output formában)? `AC-NN` mind mérhető?
-- `Plan`: minden `#### IS-NN` (vagy `MS-XX:IS-YY`) lépésnél kitöltve `Művelet` / `Implementáció` / `Commit`? `Failing test` és `Verify` kitöltve **vagy** `—` explicit `MV-XX` / `GV-XX` cross-reference-szel?
-- `Plan` multi-stage alak: minden `MS-XX` milestone-hoz tartozik legalább egy `MV-XX` blokk?
-- `Tervezett változtatások` (`CM-NN` / `CA-NN` / `CD-NN`) bulletjei `<hely> — <mit>` formátumban, tömören?
-
-7. **Plan mező-szemantika** (csak Plan-szakasz esetén):
-
-- A Plan minden `Művelet` / `Implementáció` / `Failing test` / `Verify` / `MV-XX` / `GV-XX` / `Commit` / `Kockázat` bejegyzése megfelel a [Mező szemantika](./plan.md#mező-szemantika) szabályainak (kötelező cross-reference-ek, commit-ref formátum)?
-
-8. **Terminológiai konzisztencia**:
-
-- Ugyanaz a komponens-név / fogalom mindenütt?
+- A `Spec` ír-e olyat, amit az `Intent.NEM-célok` explicit kizár?
+- A `Spec.Nyitott kérdések` szakaszában maradt megválaszolatlan tétel?
+- Minden `FR-NN` megfigyelhető viselkedés (input → output formában)? `AC-NN` mind mérhető?
+- Minden `AC-NN` `(Ref: FR-XX)` formában hivatkozik legalább egy `FR-NN`-re?
 - NFR-ben említett metrika konkretizálva van-e az elfogadási kritériumokban?
 
-9. **Egyszerűsítés / tömörítés**:
+### `+ Plan`
 
-- Van-e olyan rész, ami **rövidebb, lényegre törőbb** megfogalmazással kifejezhető az értelem elvesztése nélkül?
-- Tartalmi **duplikáció**? Felesleges töltelékszó, redundáns minősítő ("nyilvánvalóan fontos", "általában szükséges"), feleslegesen ismételt magyarázat?
+- A `Branch` sor konkrét név (nem placeholder)?
+- `Előfeltételek` további tételei (dep, env var, migration, feature flag, fixtures, mcp) konkrétak, nem placeholderek?
+- Minden `Spec.Elfogadási kritérium` köthető legalább egy `Plan`-lépés `Verify`-jéhez vagy a hozzá tartozó `MV-XX` / `GV-XX`-hez?
+- Van-e `Plan`-lépés, ami egyetlen Spec-követelményt sem szolgál?
+- A `Plan` ír-e olyat, amit az `Intent.NEM-célok` explicit kizár?
+- `Implementációs lépések`: pontosan **egy** alak (Flat `IS-XX` **vagy** Multi-stage `MS-XX` / `MS-XX:IS-YY`) van használatban, a másik blokk törölve?
+- Minden `#### IS-NN` / `#### MS-NN` / `##### MS-XX:IS-YY` heading-en megvan a `[ ]` (vagy `[x]`) checkbox?
+- Minden `IS-NN` (vagy `MS-XX:IS-YY`) lépésnél kitöltve `Művelet` / `Implementáció` / `Commit`? `Failing test` és `Verify` kitöltve **vagy** `—` explicit `MV-XX` / `GV-XX` cross-reference-szel?
+- Multi-stage alak: minden `MS-XX` milestone-hoz tartozik legalább egy `MV-XX` blokk?
+- `Tervezett változtatások` (`CM-NN` / `CA-NN` / `CD-NN`) bulletjei `<hely> — <mit>` formátumban, tömören?
+- Minden Plan-mező megfelel a [Mező-szemantika](./plan.md#mező-szemantika) szabályainak (tilalmas frázisok, kötelező cross-reference-ek, `Commit` `[IS-XX]` / `[MS-XX:IS-YY]` ref)?
 
 ## Output formátum
 
