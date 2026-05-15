@@ -26,9 +26,9 @@ A beszélgetésben legyen véglegesített `Intent` + `Spec`. Új sessionben olva
 
 ---
 
-## Mező-szemantika (kötelező)
+## Mező-szemantika
 
-A sablon mezőit ezekkel a szabályokkal töltsd ki — eltérés esetén a Plan review-on visszadobjuk.
+A sablon mezőit ezekkel a szabályokkal töltsd ki.
 
 ### `Művelet`
 
@@ -79,20 +79,20 @@ A `Plan` szakasz + `Megvalósítási napló` placeholder, amit a véglegesített
 
 ### Tervezett változtatások
 
-A változás hatóköre — **mit** érint a változás. Kategóriák: módosítás (`CM`), hozzáadás (`CA`), törlés (`CD`). Line ref opcionális.
+<!-- A változás hatóköre — **mit** érint a változás. Kategóriák: módosítás (`CM`), hozzáadás (`CA`), törlés (`CD`). Leírás röviden, tömören. Line ref, ha lehetséges. Üres egység -> törlés --->
 
 #### Módosítás
 
-- **CM-01** — <Meglévő rész / fájl / pipeline — egy mondat, mit módosítunk benne.>
+- **CM-01** — <Meglévő rész / fájl / pipeline> — <mit módosítunk benne>
 - **CM-02** — <...>
 
 #### Hozzáadás
 
-- **CA-01** — <Új rész / fájl / réteg — egy mondat, mit veszünk fel.>
+- **CA-01** — <Új rész / fájl / pipeline> — <mit adunk hozzá>
 
 #### Törlés
 
-- **CD-01** — <Rész / fájl / referencia — egy mondat, mit távolítunk el.>
+- **CD-01** — <Törlendő rész / fájl / pipeline> — <mit távolítunk el>
 
 ### Implementációs lépések
 
