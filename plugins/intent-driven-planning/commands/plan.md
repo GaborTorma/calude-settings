@@ -26,6 +26,45 @@ A beszélgetésben legyen véglegesített `Intent` + `Spec`. Új sessionben olva
 
 ---
 
+## Mező-szemantika (kötelező)
+
+A sablon mezőit ezekkel a szabályokkal töltsd ki — eltérés esetén a Plan review-on visszadobjuk.
+
+### `Művelet`
+
+- **Cél**: 1 mondat, mit csinál a lépés érthetően — érintett fájl/réteg + viselkedési hatás.
+- **Tilos**: konkrét kódrészlet, hívási lánc, "~N sor", "kis komponens", komplexitás-becslés.
+- **Jó példa**: "Az olvasási útvonal kiegészül egy új mezővel, így a kliens reaktívan értesül a változásáról."
+- **Rossz példa**: "`<konkrét-fájl>`-ban a select-be új mező (~1 sor)."
+
+### `Implementáció`
+
+- **Cél**: technikai megvalósítás — pontos symbol-ok / mezők / hook-ok / helper-ek / event-ek, logika. Mélyebb mint a `Művelet`, nem ismétlés.
+- **Tilos**: sorszám-becslés ("~15 sor", "1-2 sor"), nehézségi minősítés ("triviális", "egyszerű") — nem ellenőrizhető állítások.
+
+### `Failing test`
+
+- **Cél**: a _jelenlegi hiány_ reprodukciója, ami ezen a lépésen önállóan megfigyelhető — teszt, assert, debug-snapshot, manuális próba.
+- **Ha nem észlelhető lokálisan** (új mező, channel join, konstans, helper): hagyd ki írj **`Failing test`: —**, és tedd az ellenőrzést `MV-XX`/`GV-XX` alá hivatkozással.
+- **Tilos**: cross-cutting e2e-szcenárió itt — az `MV` dolga.
+
+### `Verify`
+
+- **Cél**: a lépésen önállóan (más `IS` nélkül) futtatható ellenőrzés, ami zöldre váltja a `Failing test`-et — parancs, log-assert, devtools-snapshot, MCP-query.
+- **Ha nem önálló**: írj **`Verify`: —** és hivatkozz `MV-XX`/`GV-XX`-re.
+- **Tilos**: cross-cutting e2e itt, homályos "működik".
+
+### `MV-XX` (Milestone verify) és `GV-XX` (Global verify)
+
+- **Minden bejegyzés konkrét, futtatható vagy reprodukálható** — Spec `AC-XX`-re, nevesített flow-ra, vagy konkrét parancsra hivatkozva.
+- **Tilos**:
+   - "Minden `IS-XX` Verify-ja zöld" — a checkbox-ok jelzik.
+   - "Lint zöld, build hibamentes" minden milestone-nál — ha kell, egyszer a `GV`-ben.
+   - "Régi funkciók regressziómentesek" — nevesítsd a flow-t és a megfigyelhető állapotot.
+- **Jó MV/GV-bejegyzés alak**: "AC-<XX>: <kiváltó állapot> → <megfigyelhető eredmény> <konkrét időkereten belül> (<eszköz> + <ellenőrzési mód>)."
+
+---
+
 ## Sablon
 
 A `Plan` szakasz + `Megvalósítási napló` placeholder, amit a véglegesített `Intent` + `Spec` mögé fűzünk:
@@ -64,52 +103,51 @@ A változás hatóköre — **mit** érint a változás. Kategóriák: módosít
     MS-XX milestone-csoportok, lokális `MS-XX:IS-YY` lépésszámozás, milestone-onkénti MV-XX verify.
 -->
 
-<!-- ───────────── OPCIÓ A — Flat alak ───────────── -->
+<!-- OPCIÓ A — Flat alak -->
 
 #### [ ] IS-01 — <Lépés rövid címe>
 
-- **Művelet**: <konkrét teendő — milyen fájl(oka)t érint, milyen változás.>
-- **Failing test**: <melyik teszt vagy assert reprodukálja a hiányosságot/bugot.>
-- **Implementáció**: <a minimum kód, ami zöldre viszi a tesztet.>
-- **Verify**: <pontos parancs vagy ellenőrzés, pl. `npm test path/to/file` zöld; manual: <X> működik.>
-- **Commit**: `<type>(<scope>): <subject> [IS-XX]`. Ha az IS közben `IL-XX` is keletkezik és ugyanabba a commitba olvad: `[IS-04, IL-02]`.
+<!-- Mezők szabályait lásd: `Mező-szemantika`. -->
 
-<!-- További lépések (#### IS-02, #### IS-03, ...) ugyanezzel a struktúrával. -->
+- **Művelet**: <…>
+- **Implementáció**: <…>
+- **Failing test**: <…> _vagy_ `—`
+- **Verify**: <…> _vagy_ `—`
+- **Commit**: `<type>(<scope>): <subject> [IS-XX]` — ha `IL-XX` is keletkezik ugyanabban a commitban, pl. `[IS-04, IL-02]`
 
-<!-- ───────────── OPCIÓ B — Multi-stage alak ───────────── -->
+<!-- Továbbiak (#### IS-02, #### IS-03, ...) ugyanezzel a struktúrával. -->
+
+<!-- OPCIÓ B — Multi-stage alak -->
 
 #### [ ] MS-01 — <Milestone rövid címe, ami egy e2e-tesztelhető release-worthy egységet ír le>
 
 ##### [ ] MS-01:IS-01 — <Lépés rövid címe>
 
-- **Művelet**: <konkrét teendő — milyen fájl(oka)t érint, milyen változás.>
-- **Failing test**: <melyik teszt vagy assert reprodukálja a hiányosságot/bugot.>
-- **Implementáció**: <a minimum kód, ami zöldre viszi a tesztet.>
-- **Verify**: <pontos parancs vagy ellenőrzés, pl. `npm test path/to/file` zöld; manual: <X> működik.>
-- **Commit**: `<type>(<scope>): <subject> [MS-XX:IS-YY]`. Ha az IS közben `IL-XX` is keletkezik és ugyanabba a commitba olvad: `[MS-02:IS-04, IL-02]`.
+<!-- Mezők szabályait lásd: `Mező-szemantika`. -->
 
-<!-- További step-ek: ##### MS-01:IS-02, ##### MS-01:IS-03, ... -->
+- **Művelet**: <…>
+- **Implementáció**: <…>
+- **Failing test**: <…> _vagy_ `—`
+- **Verify**: <…> _vagy_ `—`
+- **Commit**: `<type>(<scope>): <subject> [MS-XX:IS-YY]` — ha `IL-XX` is keletkezik ugyanabban a commitban, pl. `[MS-02:IS-04, IL-02]`
 
-##### MS-01 — Milestone verify
+<!-- Továbbiak: ##### MS-01:IS-02, ##### MS-01:IS-03, ... -->
 
-- **MV-01** — Minden `MS-01:IS-YY` `Verify`-ja zöld.
-- **MV-02** — Integrációs / cross-cutting smoke: <e2e parancs vagy lépés, ami az MS-01 egységet végigfuttatja>.
-- **MV-03** — Branch release-worthy: az MS-01-hez tartozó Spec AC-XX teljesítve, a korábbi funkciók nem törtek el.
+##### MV-01 — Milestone verify
+
+- **MV-01** — <AC-hivatkozás vagy nevesített flow + konkrét ellenőrzési mód (parancs / Playwright snapshot / MCP query / DB-állapot).>
+
+<!-- Továbbiak: ##### MV-02, ##### MV-03, ... -->
 
 <!-- További milestone-ok (#### MS-02, #### MS-03, ...) ugyanezzel a struktúrával, lokális IS-számozással és saját MV blokkal. -->
 
 ### Globális verifikáció (a teljes Plan végén)
 
-- **GV-01** — Minden lépés (`IS-XX` vagy `MS-XX:IS-YY`) és — ha vannak — minden `MV-XX` zöld.
-- **GV-02** — Minden ismert edge case-hez van failing test és zöld.
-- **GV-03** — Spec elfogadási kritériumok mind teljesítve.
-- **GV-04** — Lint / typecheck / build hibamentes.
-- **GV-05** — Manual smoke: <golden path egy mondatban>.
+- **GV-01** — <Konkrét záró ellenőrzés a teljes Plan szintjén (AC-coverage, golden path e2e, build parancs stb.).>
 
-### Rollback / kockázat
+### Kockázat
 
-- <Mi a visszaút, ha a Plan menet közben elakad — pl. "git revert <első commit>", "feature flag off".>
-- <Legkockázatosabb lépés és mitigáció.>
+- <Legkockázatosabb lépés és mitigáció (csak ha van!)>
 
 ## Megvalósítási napló
 
@@ -122,7 +160,7 @@ A változás hatóköre — **mit** érint a változás. Kategóriák: módosít
 - **Indoklás**: <1-2 mondat a motivációról / triggerről: mi váltotta ki a deltát — mi derült ki, milyen bugot fedeztünk fel, miért nem volt megfelelő a Plan-megközelítés.>
 - **Delta**: <1-2 mondat — a delta konkrét tartalma: hogyan tértünk el / mit fixáltunk / mit vettünk fel follow-up-ként. **Ne ismételd a Plan-tételt** — csak a deltát írd le.>
 - **Nyitott** (opcionális): <amit nem sikerült megcsinálni, későbbre halasztottuk — pl. follow-up ticket, tech-debt jegyzet. Csak akkor írd ki, ha van ilyen.>
-- **Commit** (ha külön commit-ot kap): `<type>(<scope>): <subject> [IL-XX]`.
+- **Commit** (ha külön commit-ot kap): `<type>(<scope>): <subject> [IL-XX]`
 
 <!-- További bejegyzések (### IL-02, ### IL-03, ...) ugyanezzel a struktúrával. Ha olyan dolog történik, ami egy korábbi `IL-XX` bejegyzést érint (pl. egy korábbi `Nyitott` tétel teljesül), a meglévő bejegyzést kell frissíteni — ne nyiss újat. -->
 ```
