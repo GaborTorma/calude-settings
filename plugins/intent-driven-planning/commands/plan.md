@@ -72,7 +72,7 @@ A változás hatóköre — **mit** érint a változás. Kategóriák: módosít
 - **Failing test**: <melyik teszt vagy assert reprodukálja a hiányosságot/bugot.>
 - **Implementáció**: <a minimum kód, ami zöldre viszi a tesztet.>
 - **Verify**: <pontos parancs vagy ellenőrzés, pl. `npm test path/to/file` zöld; manual: <X> működik.>
-- **Commit**: `<conventional commit message>`
+- **Commit**: `<type>(<scope>): <subject> [IS-XX]`. Ha az IS közben `IL-XX` is keletkezik és ugyanabba a commitba olvad: `[IS-04, IL-02]`.
 
 <!-- További lépések (#### IS-02, #### IS-03, ...) ugyanezzel a struktúrával. -->
 
@@ -86,7 +86,7 @@ A változás hatóköre — **mit** érint a változás. Kategóriák: módosít
 - **Failing test**: <melyik teszt vagy assert reprodukálja a hiányosságot/bugot.>
 - **Implementáció**: <a minimum kód, ami zöldre viszi a tesztet.>
 - **Verify**: <pontos parancs vagy ellenőrzés, pl. `npm test path/to/file` zöld; manual: <X> működik.>
-- **Commit**: `<conventional commit message>`
+- **Commit**: `<type>(<scope>): <subject> [MS-XX:IS-YY]`. Ha az IS közben `IL-XX` is keletkezik és ugyanabba a commitba olvad: `[MS-02:IS-04, IL-02]`.
 
 <!-- További step-ek: ##### MS-01:IS-02, ##### MS-01:IS-03, ... -->
 
@@ -122,6 +122,7 @@ A változás hatóköre — **mit** érint a változás. Kategóriák: módosít
 - **Indoklás**: <1-2 mondat a motivációról / triggerről: mi váltotta ki a deltát — mi derült ki, milyen bugot fedeztünk fel, miért nem volt megfelelő a Plan-megközelítés.>
 - **Delta**: <1-2 mondat — a delta konkrét tartalma: hogyan tértünk el / mit fixáltunk / mit vettünk fel follow-up-ként. **Ne ismételd a Plan-tételt** — csak a deltát írd le.>
 - **Nyitott** (opcionális): <amit nem sikerült megcsinálni, későbbre halasztottuk — pl. follow-up ticket, tech-debt jegyzet. Csak akkor írd ki, ha van ilyen.>
+- **Commit** (ha külön commit-ot kap): `<type>(<scope>): <subject> [IL-XX]`.
 
 <!-- További bejegyzések (### IL-02, ### IL-03, ...) ugyanezzel a struktúrával. Ha olyan dolog történik, ami egy korábbi `IL-XX` bejegyzést érint (pl. egy korábbi `Nyitott` tétel teljesül), a meglévő bejegyzést kell frissíteni — ne nyiss újat. -->
 ```
