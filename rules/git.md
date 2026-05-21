@@ -6,6 +6,12 @@
 - **Visszavonás**: `git revert <sha>` — nem patchek!
 - **Tilos**: `--no-verify`, `push --force` main-re, `reset --hard` vagy `pr` megerősítés nélkül.
 
+## Pre-commit gate
+
+Commit előtt minden változáshoz le kell futtatni a releváns ellenőrzéseket (**lint, typecheck, unit/e2e tests**). Ha a projektben létezik az adott eszköz, **kötelező** futtatni — ha hiányzik, kihagyható.
+
+**Detektálás**: `package.json` scripts, `pyproject.toml`, `Makefile`, vagy projekt CLAUDE.md alapján. Ha nem egyértelmű mi a parancs, kérdezd meg egyszer és jegyezd meg.
+
 ## Conventional Commits
 
 Formátum: `<type>(<scope>): <subject>` — scope opcionális, kebab-case.
