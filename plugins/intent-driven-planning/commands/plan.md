@@ -30,6 +30,12 @@ A beszélgetésben legyen véglegesített `Intent` + `Spec`. Új sessionben olva
 
 A sablon mezőit ezekkel a szabályokkal töltsd ki.
 
+### `IS-XX`
+
+- **Egy IS = funkcionális egység mérhető eredménnyel**, nem fájlonkénti mechanikus edit. Önmagában megfigyelhető viselkedésváltozás kell legyen (új capability, működő flow, megjavított bug).
+- **Tilos önálló IS-ként** tisztán előkészítő edit (1 sor beszúrás, új mező / konstans / helper hozzáadása) amelynek önmagában nincs hatása és nem tesztelhető. Az ilyen prep work része kell legyen annak az IS-nek, ami először felhasználja — a funkcionalitás **egyben** szülessen meg.
+- **Jó IS**: egy funkció bevezetése akár több fájlt érintve, ahol a `Failing test`/`Verify` mérhetővé teszi a hatást.
+
 ### `Művelet`
 
 - **Cél**: 1 mondat, mit csinál a lépés érthetően — érintett fájl/réteg + viselkedési hatás.
@@ -40,21 +46,22 @@ A sablon mezőit ezekkel a szabályokkal töltsd ki.
 ### `Implementáció`
 
 - **Cél**: technikai megvalósítás — pontos symbol-ok / mezők / hook-ok / helper-ek / event-ek, logika. Mélyebb mint a `Művelet`, nem ismétlés.
+- **Forma**: egy összefoglaló mondat, alatta **opcionálisan** nested sub-bullet-ek, ha a megvalósítás több részletre bomlik (pl. külön symbol-ok, sorrendi lépések). Egy-pontos esetnél hagyd ki a sub-bullet-eket.
 - **Tilos**: sorszám-becslés ("~15 sor", "1-2 sor"), nehézségi minősítés ("triviális", "egyszerű") — nem ellenőrizhető állítások.
 
 ### `Failing test`
 
 - **Cél**: a _jelenlegi hiány_ reprodukciója, ami ezen a lépésen önállóan megfigyelhető — teszt, assert, debug-snapshot, manuális próba.
-- **Ha nem észlelhető lokálisan** (új mező, channel join, konstans, helper): hagyd ki írj **`Failing test`: —**, és tedd az ellenőrzést `MV-XX`/`GV-XX` alá hivatkozással.
+- **Ha nem észlelhető lokálisan, de a lépésnek cross-cutting hatása van** (pl. channel join, feature flag bekapcsolás): tedd az ellenőrzést `MV-XX`/`GV-XX` alá és hivatkozd az be ide.
 - **Tilos**: cross-cutting e2e-szcenárió itt — az `MV` dolga.
 
 ### `Verify`
 
 - **Cél**: a lépésen önállóan (más `IS` nélkül) futtatható ellenőrzés, ami zöldre váltja a `Failing test`-et — parancs, log-assert, devtools-snapshot, MCP-query.
-- **Ha nem önálló**: írj **`Verify`: —** és hivatkozz `MV-XX`/`GV-XX`-re.
+- **Ha nem önálló**: hivatkozz az `MV-XX`/`GV-XX`-re.
 - **Tilos**: cross-cutting e2e itt, homályos "működik".
 
-### `MV-XX` (Milestone verify) és `GV-XX` (Global verify)
+### `MS-XX:MV-XX` (Milestone verify) és `GV-XX` (Global verify)
 
 - **Minden bejegyzés konkrét, futtatható vagy reprodukálható** — Spec `AC-XX`-re, nevesített flow-ra, vagy konkrét parancsra hivatkozva.
 - **Tilos**:
@@ -111,6 +118,8 @@ A `Plan` szakasz + `Megvalósítási napló` placeholder, amit a véglegesített
 
 - **Művelet**: <…>
 - **Implementáció**: <…>
+   - <…>
+   - <…>
 - **Failing test**: <…> _vagy_ `—`
 - **Verify**: <…> _vagy_ `—`
 - **Commit**: `<type>(<scope>): <subject> [IS-XX]` — ha `IL-XX` is keletkezik ugyanabban a commitban, pl. `[IS-04, IL-02]`
@@ -127,6 +136,8 @@ A `Plan` szakasz + `Megvalósítási napló` placeholder, amit a véglegesített
 
 - **Művelet**: <…>
 - **Implementáció**: <…>
+   - <…>
+   - <…>
 - **Failing test**: <…> _vagy_ `—`
 - **Verify**: <…> _vagy_ `—`
 - **Commit**: `<type>(<scope>): <subject> [MS-XX:IS-YY]` — ha `IL-XX` is keletkezik ugyanabban a commitban, pl. `[MS-02:IS-04, IL-02]`
