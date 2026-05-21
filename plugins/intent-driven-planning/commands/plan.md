@@ -133,17 +133,19 @@ A `Plan` szakasz + `Megvalósítási napló` placeholder, amit a véglegesített
 
 <!-- Továbbiak: ##### MS-01:IS-02, ##### MS-01:IS-03, ... -->
 
-##### MV-01 — Milestone verify
+##### MS-01:MV — Milestone verify
 
-- **MV-01** — <AC-hivatkozás vagy nevesített flow + konkrét ellenőrzési mód (parancs / Playwright snapshot / MCP query / DB-állapot).>
+- **MS-01:MV-01** — <AC-hivatkozás vagy nevesített flow + konkrét ellenőrzési mód (parancs / Playwright snapshot / MCP query / DB-állapot).>
 
-<!-- Továbbiak: ##### MV-02, ##### MV-03, ... -->
+<!-- Továbbiak: - **MS-01:MV-02**, - **MS-01:MV-03**, ... -->
 
 <!-- További milestone-ok (#### MS-02, #### MS-03, ...) ugyanezzel a struktúrával, lokális IS-számozással és saját MV blokkal. -->
 
 ### Globális verifikáció (a teljes Plan végén)
 
 - **GV-01** — <Konkrét záró ellenőrzés a teljes Plan szintjén (AC-coverage, golden path e2e, build parancs stb.).>
+
+<!-- Továbbiak: - **GV-02**, - **GV-03**, ... -->
 
 ### Kockázat
 
